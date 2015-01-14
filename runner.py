@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from Bar import Bar
-from plugins import datetime, thinkpad_battery, wireless, ingress_portal
+from plugins import datetime, thinkpad_battery, wireless
 
 bar = Bar()
 
