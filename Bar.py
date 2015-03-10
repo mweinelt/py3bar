@@ -1,7 +1,6 @@
 import json
 import time
 import sys
-import pyinotify
 from select import select
 from BarItem import BarItem
 from core.ClickHandler import ClickHandler
@@ -11,10 +10,6 @@ class Bar(object):
     def __init__(self, interval=0.5):
         self.items = []
         self.interval = interval
-
-        # inotify
-        self.wm = pyinotify.WatchManager()
-        self.notifier = pyinotify.WatchManager(self.wm)
 
         # click events
         self.clickHandler = ClickHandler()
@@ -33,9 +28,6 @@ class Bar(object):
                 results.append(block)
 
         return json.dumps(results)
-
-    def watch(self, resource, flags=pyinotify.ALL_EVENTS):
-        self.wm.add_watch(resource, flags)
 
     def loop(self):
         log = open('/tmp/py3bar.log', 'w')
