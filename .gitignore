@@ -1,5 +1,8 @@
 *.pyc
 *.log
 
+runner.py
+
 .idea/
+.venv/
 
