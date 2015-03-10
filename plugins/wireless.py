@@ -14,10 +14,13 @@ class Wireless(BarItem):
             ethernet_interfaces = netifaces.interfaces()
             # see predictable network interface device names
             # http://cgit.freedesktop.org/systemd/systemd/tree/src/udev/udev-builtin-net_id.c#n20
-            wireless_interfaces = [interface for interface in ethernet_interfaces if interface.startswith('wl')]
+            wireless_interfaces = [interface
+                                   for interface
+                                   in ethernet_interfaces
+                                   if interface.startswith('wl')]
 
             # assert we have at least one wlan interface and take it
-            assert(len(wireless_interfaces) > 0)
+            assert len(wireless_interfaces)
             interface = wireless_interfaces.pop(0)
 
         self.interface = interface
@@ -41,4 +44,3 @@ class Wireless(BarItem):
             foo = open('/tmp/test', 'w')
             foo.write(e)
             foo.close()
-

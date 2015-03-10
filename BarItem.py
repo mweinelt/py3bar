@@ -9,9 +9,11 @@ class UpdateType(Enum):
 
 
 class BarItem(object):
-    # define valid options for i3bar according to http://i3wm.org/docs/i3bar-protocol.html
-    options = ['full_text', 'short_text', 'color', 'min_width', 'align', 'name',
-               'instance', 'urgent', 'separator', 'separator_block_width']
+    # define valid options for i3bar according to
+    # http://i3wm.org/docs/i3bar-protocol.html
+    options = ['full_text', 'short_text', 'color', 'min_width',
+               'align', 'name', 'instance', 'urgent', 'separator',
+               'separator_block_width']
 
     def __init__(self, name):
         self.blocks = OrderedDict()
@@ -24,7 +26,7 @@ class BarItem(object):
         return '{prefix}_{suffix}'.format(prefix=self.name, suffix=block)
 
     def set(self, option, value, block='default'):
-        assert(option in self.options)
+        assert option in self.options
         # prefix the module id for collision resistance
         block_key = self.get_block_key(block)
         if block_key not in self.blocks:

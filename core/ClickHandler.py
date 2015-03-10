@@ -35,9 +35,9 @@ class ClickHandler(object):
         module = event['name']
         button = event['button']
 
-        if not module in self.storage:
+        if module not in self.storage:
             return
-        if not button in self.storage[module]:
+        if button not in self.storage[module]:
             return
 
         self.log.write('running\n')
@@ -46,5 +46,3 @@ class ClickHandler(object):
             self.storage[module][button]()
         except Exception as e:
             self.log.write(e)
-
-

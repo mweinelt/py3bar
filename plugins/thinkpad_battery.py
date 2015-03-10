@@ -12,5 +12,5 @@ class ThinkpadBattery(BarItem):
             return file.read().strip()
 
     def update(self, trigger=UpdateType.interval):
-        self.set('full_text', '{remainder}%'.format(remainder=self.get_data('remaining_percent')))
-
+        self.set('full_text', '{remainder}%'.format(
+            remainder=self.get_data('remaining_percent')))
