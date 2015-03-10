@@ -44,7 +44,7 @@ class Bar(object):
         # http://i3wm.org/docs/i3bar-protocol.html
         ###############################################
         # i3bar header, there are more options...
-        print(json.dumps({'version': 1, 'stop_signal': 10, 'cont_signal': 12, 'click_events': True }))
+        print(json.dumps({'version': 1, 'stop_signal': 10, 'cont_signal': 12, 'click_events': True}))
 
         # the i3bar protocol expects and endless json list
         # so open it, print an item, add a comma, and so forth.

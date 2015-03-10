@@ -27,7 +27,7 @@ class BarItem(object):
         assert(option in self.options)
         # prefix the module id for collision resistance
         block_key = self.get_block_key(block)
-        if not block_key in self.blocks:
+        if block_key not in self.blocks:
             self.blocks[block_key] = {'name': block_key}
         self.blocks[block_key][option] = value
 
