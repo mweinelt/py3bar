@@ -14,16 +14,14 @@ class ClickHandler(object):
         """
         registers a plugins click handlers
         """
-        self.log.write("Registering %s\n" % module.name)
-        self.log.flush()
-
         # create module
-        self.storage.update({module.name: {}})
+        for key in module.get().keys():
+            self.storage.update({key: {}})
 
-        # add events
-        self.storage[module.name][1] = module.left_click
-        self.storage[module.name][2] = module.middle_click
-        self.storage[module.name][3] = module.right_click
+            # add events
+            self.storage[key][1] = module.left_click
+            self.storage[key][2] = module.middle_click
+            self.storage[key][3] = module.right_click
 
     def trigger(self, buffer):
         """
@@ -45,9 +43,13 @@ class ClickHandler(object):
         module = event['name']
         button = event['button']
 
+        print((module, button), file=sys.stderr)
+
         if module not in self.storage:
+            print("missing module", file=sys.stderr)
             return
         if button not in self.storage[module]:
+            print("missing button handler", file=sys.stderr)
             return
 
         """
@@ -55,6 +57,7 @@ class ClickHandler(object):
         throw, we have to widely catch and log all exceptions
         """
         try:
+            print((module, button, self.storage[module][button]), file=sys.stderr)
             self.storage[module][button]()
         except Exception:
             print("Exception in '%s' (button %d) caught:\n%s\n" %

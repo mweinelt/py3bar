@@ -2,6 +2,7 @@ import json
 import time
 import sys
 import signal
+from select import select
 from BarItem import BarItem
 from core.ClickHandler import ClickHandler
 
@@ -72,7 +73,18 @@ class Bar(object):
                 sys.stdout.flush()
 
             # in
-            for line in sys.stdin:
+            input_processed = False
+            while sys.stdin in select([sys.stdin], [], [], 0)[0]:
+                line = sys.stdin.readline()
+                print(line, file=sys.stderr)
                 self.clickHandler.trigger(line)
+                input_processed = True
 
-            time.sleep(self.interval)
+            """
+            if input was processed earlier we skip the next sleep
+            because a visual response might be expected
+            """
+            if not input_processed:
+                time.sleep(self.interval)
+
+            sys.stderr.flush()
