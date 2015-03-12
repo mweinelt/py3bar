@@ -14,7 +14,7 @@ class Bar(object):
         self.paused = False
 
         # signals
-        self.signal_pause = signal.SIGSTOP
+        self.signal_pause = signal.SIGTSTP
         self.signal_resume = signal.SIGCONT
 
         signal.signal(self.signal_pause, self.pause)
