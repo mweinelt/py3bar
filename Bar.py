@@ -2,7 +2,6 @@ import json
 import time
 import sys
 import signal
-from select import select
 from BarItem import BarItem
 from core.ClickHandler import ClickHandler
 
@@ -53,8 +52,6 @@ class Bar(object):
         self.paused = False
 
     def loop(self):
-        log = open('/tmp/py3bar.log', 'w')
-
         ###############################################
         # http://i3wm.org/docs/i3bar-protocol.html
         ###############################################
@@ -75,10 +72,7 @@ class Bar(object):
                 sys.stdout.flush()
 
             # in
-            while sys.stdin in select([sys.stdin], [], [], 0)[0]:
-                event = sys.stdin.readline()[:-1]
-                self.clickHandler.trigger(event)
-                log.write('<- %s' % event)
-                log.flush()
+            for line in sys.stdin:
+                self.clickHandler.trigger(line)
 
             time.sleep(self.interval)

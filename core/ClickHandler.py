@@ -1,12 +1,19 @@
 import json
+import sys
+import traceback
 
 
 class ClickHandler(object):
     def __init__(self):
+        """
+        initialize click handler registry
+        """
         self.storage = {}
-        self.log = open('/tmp/click.log', 'w')
 
     def register(self, module):
+        """
+        registers a plugins click handlers
+        """
         self.log.write("Registering %s\n" % module.name)
         self.log.flush()
 
@@ -18,19 +25,22 @@ class ClickHandler(object):
         self.storage[module.name][2] = module.middle_click
         self.storage[module.name][3] = module.right_click
 
-    def trigger(self, event):
-        if event == '[':
+    def trigger(self, buffer):
+        """
+        try to parse data received from sys.stdin as json objects
+        if successful, parse for module name and button id to
+        trigger the modules registered click method
+        :param buffer: continous json list received from stdin
+        """
+        if buffer == '[':
             return
 
         try:
-            self.log.write("%s\n" % event)
-            event = json.loads(event)
-        except (ValueError, KeyError) as e:
-            # malformed json in stdin
-            self.log.write('Error: %s\n' % e)
+            if buffer.startswith(','):
+                buffer = buffer[1:]
+            event = json.loads(buffer)
+        except ValueError:
             return
-
-        self.log.flush()
 
         module = event['name']
         button = event['button']
@@ -40,9 +50,13 @@ class ClickHandler(object):
         if button not in self.storage[module]:
             return
 
-        self.log.write('running\n')
-        self.log.flush()
+        """
+        As we are unable to guess what exceptions plugins might
+        throw, we have to widely catch and log all exceptions
+        """
         try:
             self.storage[module][button]()
-        except Exception as e:
-            self.log.write(e)
+        except Exception:
+            print("Exception in '%s' (button %d) caught:\n%s\n" %
+                  (module, button, traceback.format_exc()),
+                  file=sys.stderr)
