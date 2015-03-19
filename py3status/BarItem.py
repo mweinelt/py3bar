@@ -6,6 +6,7 @@ class UpdateType(Enum):
     initial = 1
     interval = 2
     inotify = 3
+    click = 4
 
 
 class BarItem(object):
