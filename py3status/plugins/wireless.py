@@ -1,4 +1,3 @@
-import subprocess
 import basiciw
 import netifaces
 from py3status.BarItem import UpdateType, BarItem
@@ -20,27 +19,27 @@ class Wireless(BarItem):
                                    if interface.startswith('wl')]
 
             # assert we have at least one wlan interface and take it
-            assert len(wireless_interfaces)
-            interface = wireless_interfaces.pop(0)
+            assert wireless_interfaces
+            self.interface = wireless_interfaces.pop(0)
 
-        self.interface = interface
-        self.update()
+        else:
+            self.interface = interface
+
+        self.update(trigger=UpdateType.initial)
 
     def update(self, trigger=UpdateType.interval):
         if trigger in [UpdateType.interval]:
-            iw = basiciw.iwinfo(self.interface)
-            self.set('color', '#ffffff')
+            try:
+                iw = basiciw.iwinfo(self.interface)
+            except RuntimeError:
+                self.set('color', '#AAAAAA')
+                self.set('full_text', 'disabled')
+                return
+
             essid = iw['essid']
-            if len(essid) > 0:
+            if essid:
+                self.set('color', '#FFFFFF')
                 self.set('full_text', essid)
             else:
-                self.set('full_text', 'off')
-
-    def left_click(self):
-        self.set('color', '#ff0000')
-        try:
-            subprocess.Popen(['/usr/bin/nm-connection-editor'])
-        except OSError as e:
-            foo = open('/tmp/test', 'w')
-            foo.write(e)
-            foo.close()
+                self.set('color', '#AAAAAA')
+                self.set('full_text', 'disconnected')
