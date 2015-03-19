@@ -1,14 +1,15 @@
 import json
-import time
-import sys
+import locale
 import signal
+import sys
+import time
 from select import select
 from py3status.BarItem import BarItem
 from py3status.ClickHandler import ClickHandler
 
 
 class Bar(object):
-    def __init__(self, interval=0.5):
+    def __init__(self, interval=0.5, lc_all='de_DE.UTF-8'):
         self.items = []
         self.interval = interval
         self.paused = False
@@ -22,6 +23,9 @@ class Bar(object):
 
         # click events
         self.clickHandler = ClickHandler()
+
+        # set locale for sensitive date output among other things
+        locale.setlocale(locale.LC_ALL, lc_all)
 
     def register(self, item):
         assert isinstance(item, BarItem)

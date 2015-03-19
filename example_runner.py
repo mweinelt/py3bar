@@ -2,7 +2,7 @@
 from py3status import Bar
 from py3status.plugins import clock
 
-bar = Bar()
+bar = Bar.Bar(lc_all='de_DE.UTF-8')
 
 # Initizalize BarItems
 dt = clock.DateTime()
