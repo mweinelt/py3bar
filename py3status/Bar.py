@@ -3,8 +3,7 @@ import time
 import sys
 import signal
 from select import select
-
-from py3status import BarItem
+from py3status.BarItem import BarItem
 from py3status.ClickHandler import ClickHandler
 
 
