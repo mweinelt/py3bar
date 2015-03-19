@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from Bar import Bar
-from plugins import clock
+from py3status import Bar
+from py3status.plugins import clock
 
 bar = Bar()
 

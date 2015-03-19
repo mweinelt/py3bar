@@ -1,5 +1,7 @@
-from BarItem import BarItem, UpdateType
 import time
+
+from py3status.BarItem import UpdateType
+from py3status import BarItem
 
 
 class DateTime(BarItem):

@@ -3,8 +3,9 @@ import time
 import sys
 import signal
 from select import select
-from BarItem import BarItem
-from core.ClickHandler import ClickHandler
+
+from py3status import BarItem
+from py3status.ClickHandler import ClickHandler
 
 
 class Bar(object):

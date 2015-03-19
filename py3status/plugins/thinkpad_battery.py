@@ -1,4 +1,5 @@
-from BarItem import BarItem, UpdateType
+from py3status.BarItem import UpdateType
+from py3status import BarItem
 
 
 class ThinkpadBattery(BarItem):

@@ -1,7 +1,9 @@
-from BarItem import BarItem, UpdateType
 import subprocess
 import basiciw
 import netifaces
+
+from py3status.BarItem import UpdateType
+from py3status import BarItem
 
 
 class Wireless(BarItem):
